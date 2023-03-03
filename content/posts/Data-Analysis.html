@@ -7,22 +7,414 @@ output: html_document
 
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="loading-the-data-set" class="section level1 unnumbered">
+<h1>Loading the Data Set</h1>
+<p>Please first install the <code>tidyverse</code> package by writing - <code>install.packages("tidyverse")</code> if you did not install it. If you have already installed the package, then load it by writing the code - <code>library (tidyverse)</code>. Also install and load <code>janitor</code> and <code>lubridate</code> package. If you need to install packages, please do not install them in this document; rather, install them in <code>console</code>.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   1.0.1 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.3.0      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 1.0.0</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## Warning: package &#39;janitor&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="/posts/Data-Analysis_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="question-1-5-points" class="section level1">
+<h1>Question # 1 (5 Points)</h1>
+<p>Import a dataset directly into R from the link - <a href="https://raw.githubusercontent.com/msharifbd/DATA/main/DATA.csv" class="uri">https://raw.githubusercontent.com/msharifbd/DATA/main/DATA.csv</a>. Name the dataset <code>df</code> and check whether it is a <code>tibble</code>. If the dataset is not <code>tibble</code>, please convert it into <code>tibble</code>. The necessary packages for data wrangling and visualization must be loaded before importing the data.</p>
+<pre class="r"><code>df &lt;- read_csv(
+&quot;https://raw.githubusercontent.com/msharifbd/DATA/main/DATA.csv&quot;)</code></pre>
+<pre><code>## Rows: 6910 Columns: 14
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): companyname, stateincorp, ticker
+## dbl (11): year, sic, totalassets, costofgoodssold, netincome, sale, advertis...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>is_tibble(df)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>This dataset is a tibble.</p>
+</div>
+<div id="question-2-5-points" class="section level1">
+<h1>Question # 2 (5 Points)</h1>
+<p>Please present some information about the <code>df</code> data (discuss about <code>metadata</code>). Also mention the number of rows (observations) and columns (variables) of the dataset. Additionally, mention the type of the variables, i.e., <code>ticker</code> and <code>year</code>. Please change the type of the variable <code>sic</code> into <code>character (chr)</code>. Finally, convert the names of all the columns into uppercase.</p>
+<pre class="r"><code>glimpse(df)</code></pre>
+<pre><code>## Rows: 6,910
+## Columns: 14
+## $ companyname     &lt;chr&gt; &quot;AMERICAN AIRLINES GROUP INC&quot;, &quot;AMERICAN AIRLINES GROU…
+## $ stateincorp     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, …
+## $ ticker          &lt;chr&gt; &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;…
+## $ year            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ sic             &lt;dbl&gt; 4512, 4512, 4512, 4512, 4512, 4512, 4512, 4512, 4512, …
+## $ totalassets     &lt;dbl&gt; 25175.000, 25438.000, 25088.000, 23848.000, 23510.000,…
+## $ costofgoodssold &lt;dbl&gt; 20232.000, 16935.000, 18138.000, 20420.000, 20529.000,…
+## $ netincome       &lt;dbl&gt; -2071.000, -1468.000, -471.000, -1979.000, -1876.000, …
+## $ sale            &lt;dbl&gt; 23766.000, 19917.000, 22170.000, 24022.000, 24855.000,…
+## $ advertising     &lt;dbl&gt; 153.000, 153.000, 165.000, 186.000, 153.000, 166.000, …
+## $ sellingadmin    &lt;dbl&gt; 3024.000, 2720.000, 2729.000, 2907.000, 2892.000, 4672…
+## $ mktvalue        &lt;dbl&gt; 2976.3858, 2571.1835, 2597.5755, 117.3438, 266.5571, 6…
+## $ commonequity    &lt;dbl&gt; -2935.000, -3489.000, -3945.000, -7111.000, -7987.000,…
+## $ totalliability  &lt;dbl&gt; 28110.000, 28927.000, 29033.000, 30959.000, 31497.000,…</code></pre>
+<p>The ‘df’ dataset is a dataset that includes 6,910 rows (observations) and 14 columns (variables) of information regarding companies and their basic financial totals from the years 2008-2017. In this dataset, users have context regarding many companies (and their state of incorporation, stock ticker, and industry number (which identifies what industry companies are associated with)), their market value on the stock market, and their total amounts of assets, liabilities, equity, cost of goods sold, net income, sales, advertising expenses and selling/administrative expenses that would be found on a company’s balance sheet during the years from 2008-2017.</p>
+<pre class="r"><code>df = df %&gt;% 
+  mutate(sic = as.character(sic))
+glimpse(tibble)</code></pre>
+<pre><code>## function (..., .rows = NULL, .name_repair = c(&quot;check_unique&quot;, &quot;unique&quot;, 
+##     &quot;universal&quot;, &quot;minimal&quot;))</code></pre>
+<pre class="r"><code>df = df %&gt;% 
+  clean_names %&gt;% 
+rename_all(toupper)
+glimpse(df)</code></pre>
+<pre><code>## Rows: 6,910
+## Columns: 14
+## $ COMPANYNAME     &lt;chr&gt; &quot;AMERICAN AIRLINES GROUP INC&quot;, &quot;AMERICAN AIRLINES GROU…
+## $ STATEINCORP     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;…
+## $ YEAR            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ SIC             &lt;chr&gt; &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 25175.000, 25438.000, 25088.000, 23848.000, 23510.000,…
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 20232.000, 16935.000, 18138.000, 20420.000, 20529.000,…
+## $ NETINCOME       &lt;dbl&gt; -2071.000, -1468.000, -471.000, -1979.000, -1876.000, …
+## $ SALE            &lt;dbl&gt; 23766.000, 19917.000, 22170.000, 24022.000, 24855.000,…
+## $ ADVERTISING     &lt;dbl&gt; 153.000, 153.000, 165.000, 186.000, 153.000, 166.000, …
+## $ SELLINGADMIN    &lt;dbl&gt; 3024.000, 2720.000, 2729.000, 2907.000, 2892.000, 4672…
+## $ MKTVALUE        &lt;dbl&gt; 2976.3858, 2571.1835, 2597.5755, 117.3438, 266.5571, 6…
+## $ COMMONEQUITY    &lt;dbl&gt; -2935.000, -3489.000, -3945.000, -7111.000, -7987.000,…
+## $ TOTALLIABILITY  &lt;dbl&gt; 28110.000, 28927.000, 29033.000, 30959.000, 31497.000,…</code></pre>
+</div>
+<div id="question-3-10-points" class="section level1">
+<h1>Question # 3 (10 Points)</h1>
+<p>Please mention the number of companies included in the <code>df</code> dataset. Additionally, please mention the duration of the data (the number of years covered by the dataset). Furthermore, please mention the number of industries included in the dataset. Please draw a <code>bar</code> diagram of the <code>SIC</code> variable for the top five industries.</p>
+<pre class="r"><code>df %&gt;% 
+  count(COMPANYNAME)</code></pre>
+<pre><code>## # A tibble: 691 × 2
+##    COMPANYNAME                      n
+##    &lt;chr&gt;                        &lt;int&gt;
+##  1 1-800-FLOWERS.COM               10
+##  2 3D SYSTEMS CORP                 10
+##  3 3M CO                           10
+##  4 8X8 INC                         10
+##  5 A V HOMES INC                   10
+##  6 AAON INC                        10
+##  7 ABAXIS INC                      10
+##  8 ACACIA DIVERSIFIED HLDGS INC    10
+##  9 ACCO BRANDS CORP                10
+## 10 ACCURAY INC                     10
+## # … with 681 more rows</code></pre>
+<pre class="r"><code>df %&gt;% 
+  count(YEAR)</code></pre>
+<pre><code>## # A tibble: 10 × 2
+##     YEAR     n
+##    &lt;dbl&gt; &lt;int&gt;
+##  1  2008   691
+##  2  2009   691
+##  3  2010   691
+##  4  2011   691
+##  5  2012   691
+##  6  2013   691
+##  7  2014   691
+##  8  2015   691
+##  9  2016   691
+## 10  2017   691</code></pre>
+<pre class="r"><code>df %&gt;% 
+  count(SIC)</code></pre>
+<pre><code>## # A tibble: 234 × 2
+##    SIC       n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 100      20
+##  2 1382     10
+##  3 1389     10
+##  4 1531     90
+##  5 1623     10
+##  6 200      10
+##  7 2000     20
+##  8 2011     20
+##  9 2013     30
+## 10 2015     10
+## # … with 224 more rows</code></pre>
+<p>There are 691 different companies included in this dataset. The duration of this dataset is 10 years (from 2008-2017). Each company has data for every year in this duration included in this dataset. Additionally, there are 234 different industries included in this dataset.</p>
+<pre class="r"><code>df %&gt;% 
+  count(SIC,sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 234 × 2
+##    SIC       n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 7370    390
+##  2 5812    280
+##  3 7372    280
+##  4 2834    160
+##  5 3845    130
+##  6 3674    120
+##  7 5500    110
+##  8 5651    110
+##  9 7990    110
+## 10 2300    100
+## # … with 224 more rows</code></pre>
+<pre class="r"><code>top_industries_df &lt;- tibble(
+  x=c(&quot;7370&quot;,&quot;5812&quot;,&quot;7372&quot;,&quot;2834&quot;,&quot;3845&quot;),
+  y=c(39,28,28,16,13)
+)
+glimpse(top_industries_df)</code></pre>
+<pre><code>## Rows: 5
+## Columns: 2
+## $ x &lt;chr&gt; &quot;7370&quot;, &quot;5812&quot;, &quot;7372&quot;, &quot;2834&quot;, &quot;3845&quot;
+## $ y &lt;dbl&gt; 39, 28, 28, 16, 13</code></pre>
+<pre class="r"><code>barplot(top_industries_df$y,names=top_industries_df$x,main=&quot;Most Common Industries in this Dataset&quot;,xlab=&quot;Industry Number&quot;,ylab=&quot;Number of Observations&quot;,ylim=c(0,40),col=&quot;blue&quot;)+
+  geom_point()+
+  theme_bw()</code></pre>
+<p><img src="/posts/Data-Analysis_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+</div>
+<div id="question-4-5-points" class="section level1">
+<h1>Question # 4 (5 Points)</h1>
+<p>Please subset the <code>df</code> dataset for the company <code>ALPHABET INC</code> whose <code>TICKER</code> symbol is <code>GOOGL</code> and name the dataset as <code>googl</code>. Please discuss the metadata of the <code>googl</code> dataset. Please also draw a <code>scatter plot</code> of this dataset for the variables <code>SALE</code> and <code>NETINCOME</code> and include comments about your observations.</p>
+<pre class="r"><code>googl &lt;- df %&gt;% 
+  filter(
+    TICKER == &quot;GOOGL&quot;)
+glimpse(googl)</code></pre>
+<pre><code>## Rows: 10
+## Columns: 14
+## $ COMPANYNAME     &lt;chr&gt; &quot;ALPHABET INC&quot;, &quot;ALPHABET INC&quot;, &quot;ALPHABET INC&quot;, &quot;ALPHA…
+## $ STATEINCORP     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;GOOGL&quot;, &quot;GOOGL&quot;, &quot;GOOGL&quot;, &quot;GOOGL&quot;, &quot;GOOGL&quot;, &quot;GOOGL&quot;, …
+## $ YEAR            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ SIC             &lt;chr&gt; &quot;7370&quot;, &quot;7370&quot;, &quot;7370&quot;, &quot;7370&quot;, &quot;7370&quot;, &quot;7370&quot;, &quot;7370&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 31767.58, 40496.78, 57851.00, 72574.00, 93798.00, 1109…
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 7129.569, 7337.885, 9036.000, 11351.000, 17633.000, 21…
+## $ NETINCOME       &lt;dbl&gt; 4226.858, 6520.448, 8505.000, 9737.000, 10737.000, 129…
+## $ SALE            &lt;dbl&gt; 21795.55, 23650.56, 29321.00, 37905.00, 50175.00, 5982…
+## $ ADVERTISING     &lt;dbl&gt; 266.4, 353.4, 772.0, 1544.0, 2332.0, 2848.0, 3004.0, 3…
+## $ SELLINGADMIN    &lt;dbl&gt; 6446.975, 6467.962, 8523.000, 12475.000, 16284.000, 19…
+## $ MKTVALUE        &lt;dbl&gt; 96944.82, 197012.28, 190843.15, 209849.68, 233420.55, …
+## $ COMMONEQUITY    &lt;dbl&gt; 28238.86, 36004.22, 46241.00, 58145.00, 71715.00, 8730…
+## $ TOTALLIABILITY  &lt;dbl&gt; 3528.713, 4492.554, 11610.000, 14429.000, 22083.000, 2…</code></pre>
+<p>This ‘googl’ dataset, just like the original ‘df’ dataset, has 14 variables containing company and financial information for users to review. However, this dataset only includes data for the company ‘Alphabet, Inc.’ (GOOGL). It contains GOOGL’s company and financial information from the years 2008-2017.</p>
+<pre class="r"><code>googl_plot &lt;- ggplot(googl,aes(SALE,NETINCOME))+
+  geom_point(col=&quot;red&quot;,cex=2)+
+  theme_bw()
+googl_plot</code></pre>
+<p><img src="/posts/Data-Analysis_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>There appears to be a statistically strong relationship between the variables “SALE” and “NET INCOME”. With the exception of one outlier on the right side of this scatterplot, there is a very strong positive correlation between these two variables for GOOGL. As GOOGL’s sales increased every year from 2008-2016, its net income also increased every year from 2008-2016.</p>
+</div>
+<div id="question-5-5-points" class="section level1">
+<h1>Question # 5 (5 Points)</h1>
+<p>Create a new dataset by filtering two companies - <code>TARGET CORP</code> and <code>WALMART INC</code>. Please compare their total sales (variable - <code>SALE</code>) and net profit (variable - <code>NETINCOME</code>) for the years 2008-2017 and include comments on your observations.</p>
+<pre class="r"><code>new_df &lt;- df %&gt;% 
+  filter(
+    COMPANYNAME %in% c(&quot;TARGET CORP&quot;,&quot;WALMART INC&quot;)
+  )
+glimpse(new_df)</code></pre>
+<pre><code>## Rows: 20
+## Columns: 14
+## $ COMPANYNAME     &lt;chr&gt; &quot;TARGET CORP&quot;, &quot;TARGET CORP&quot;, &quot;TARGET CORP&quot;, &quot;TARGET C…
+## $ STATEINCORP     &lt;chr&gt; &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, &quot;MN&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;, &quot;TGT&quot;…
+## $ YEAR            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ SIC             &lt;chr&gt; &quot;5331&quot;, &quot;5331&quot;, &quot;5331&quot;, &quot;5331&quot;, &quot;5331&quot;, &quot;5331&quot;, &quot;5331&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 44560, 44106, 44533, 43705, 46630, 48163, 44553, 41404…
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 41895, 44157, 44062, 46585, 48306, 51035, 51160, 51278…
+## $ NETINCOME       &lt;dbl&gt; 2849, 2214, 2488, 2920, 2929, 2999, 1971, -1636, 3363,…
+## $ SALE            &lt;dbl&gt; 63367, 64948, 65357, 67390, 69865, 73301, 72596, 72618…
+## $ ADVERTISING     &lt;dbl&gt; 1195, 1233, 1167, 1292, 1360, 1422, 1668, 1600, 1434, …
+## $ SELLINGADMIN    &lt;dbl&gt; 14541, 14563, 14599, 13469, 14106, 14914, 15241, 14449…
+## $ MKTVALUE        &lt;dbl&gt; 45374.46, 23484.61, 38177.90, 38602.40, 34006.78, 3898…
+## $ COMMONEQUITY    &lt;dbl&gt; 15307, 13712, 15347, 15487, 15821, 16558, 16231, 13997…
+## $ TOTALLIABILITY  &lt;dbl&gt; 29253, 30394, 29186, 28218, 30809, 31605, 28322, 27407…</code></pre>
+<pre class="r"><code>View(new_df)</code></pre>
+<p>When reviewing ‘TARGET CORP’‘s (TGT) and ’WALMART INC’’s (WMT) sales and net profit during this time period, it’s first evident that WMT had much larger sales over every year than TGT. However, WMT saw a much bigger increase in sales over this period, as their sales increased nearly 30% (in comparison to TGT only seeing a nearly 10% increase in sales). WMT’s sales increased throughout most of this time period, while TGT’s sales (for the most part) declined after 2013.
+In terms of net income, neither company saw a huge increase in their net income results over this span. However, WMT had a very slight increase in their net income results, while TGT had a very slight decrease in their net income results. WMT saw rather consistent net income increases every year until 2015 (when there was a sharp decline in net income for the next two years). TGT, on the other hand, saw inconsistent results with their net income totals during this span (including from 2014-2016, which saw unique net income totals and one year where the company experienced a net loss in profits).</p>
+</div>
+<div id="question-6-10-points" class="section level1">
+<h1>Question # 6 (10 Points)</h1>
+<p>Create the following new variables - <code>GROSSPROFIT</code>, which is the difference between the variables <code>SALE</code> and <code>COSTOFGOODSSOLD</code>; <code>ROA</code>, which is <code>NETINCOME</code> divided by <code>TOTALASSETS</code>; <code>ROE</code>, which is <code>NETINCOME</code> divided by <code>COMMONEQUITY</code>; <code>GPMARGIN</code>, which is <code>GROSSPROFIT</code> divided by <code>SALE</code>; and <code>NPMARGIN</code>, which is <code>NETINCOME</code> divided by <code>SALE</code>. Please mention the company that has the highest <code>ROA</code> in 2008, one of the years of the recent financial crisis.</p>
+<pre class="r"><code>df &lt;- df %&gt;% 
+  mutate(GROSSPROFIT = SALE - COSTOFGOODSSOLD,.after=TOTALLIABILITY) %&gt;% 
+  mutate(ROA = NETINCOME / TOTALASSETS,.after=GROSSPROFIT) %&gt;% 
+  mutate(ROE = NETINCOME / COMMONEQUITY,.after=ROA) %&gt;% 
+  mutate(GPMARGIN = GROSSPROFIT / SALE,.after=ROE) %&gt;% 
+  mutate(NPMARGIN = NETINCOME / SALE,.after=GPMARGIN)
+glimpse(df)</code></pre>
+<pre><code>## Rows: 6,910
+## Columns: 19
+## $ COMPANYNAME     &lt;chr&gt; &quot;AMERICAN AIRLINES GROUP INC&quot;, &quot;AMERICAN AIRLINES GROU…
+## $ STATEINCORP     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;…
+## $ YEAR            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ SIC             &lt;chr&gt; &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 25175.000, 25438.000, 25088.000, 23848.000, 23510.000,…
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 20232.000, 16935.000, 18138.000, 20420.000, 20529.000,…
+## $ NETINCOME       &lt;dbl&gt; -2071.000, -1468.000, -471.000, -1979.000, -1876.000, …
+## $ SALE            &lt;dbl&gt; 23766.000, 19917.000, 22170.000, 24022.000, 24855.000,…
+## $ ADVERTISING     &lt;dbl&gt; 153.000, 153.000, 165.000, 186.000, 153.000, 166.000, …
+## $ SELLINGADMIN    &lt;dbl&gt; 3024.000, 2720.000, 2729.000, 2907.000, 2892.000, 4672…
+## $ MKTVALUE        &lt;dbl&gt; 2976.3858, 2571.1835, 2597.5755, 117.3438, 266.5571, 6…
+## $ COMMONEQUITY    &lt;dbl&gt; -2935.000, -3489.000, -3945.000, -7111.000, -7987.000,…
+## $ TOTALLIABILITY  &lt;dbl&gt; 28110.000, 28927.000, 29033.000, 30959.000, 31497.000,…
+## $ GROSSPROFIT     &lt;dbl&gt; 3534.000, 2982.000, 4032.000, 3602.000, 4326.000, 7628…
+## $ ROA             &lt;dbl&gt; -0.082264151, -0.057708939, -0.018773916, -0.082983898…
+## $ ROE             &lt;dbl&gt; 0.70562181, 0.42075093, 0.11939163, 0.27830122, 0.2348…
+## $ GPMARGIN        &lt;dbl&gt; 0.1486998, 0.1497213, 0.1818674, 0.1499459, 0.1740495,…
+## $ NPMARGIN        &lt;dbl&gt; -0.087141294, -0.073705879, -0.021244926, -0.082382816…</code></pre>
+<pre class="r"><code>df_2008data &lt;- df %&gt;% 
+  filter(
+    YEAR == 2008
+  )
+glimpse(df_2008data)</code></pre>
+<pre><code>## Rows: 691
+## Columns: 19
+## $ COMPANYNAME     &lt;chr&gt; &quot;AMERICAN AIRLINES GROUP INC&quot;, &quot;CECO ENVIRONMENTAL COR…
+## $ STATEINCORP     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;GA&quot;, &quot;CT&quot;, &quot;NV&quot;, &quot;DE&quot;, &quot;GA&quot;, &quot;DE&quot;, &quot;MA&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;AAL&quot;, &quot;CECE&quot;, &quot;PRG&quot;, &quot;ACU&quot;, &quot;BKTI&quot;, &quot;ALK&quot;, &quot;AMSWA&quot;, &quot;…
+## $ YEAR            &lt;dbl&gt; 2008, 2008, 2008, 2008, 2008, 2008, 2008, 2008, 2008, …
+## $ SIC             &lt;chr&gt; &quot;4512&quot;, &quot;3564&quot;, &quot;6141&quot;, &quot;3420&quot;, &quot;3663&quot;, &quot;4512&quot;, &quot;7372&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 25175.000, 120.017, 1233.270, 45.424, 30.622, 4835.600…
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 20232.000, 172.874, 309.737, 40.054, 9.721, 3176.100, …
+## $ NETINCOME       &lt;dbl&gt; -2071.000, 5.010, 90.189, 4.467, -1.626, -135.900, 6.5…
+## $ SALE            &lt;dbl&gt; 23766.000, 217.890, 1592.608, 68.719, 19.175, 3620.300…
+## $ ADVERTISING     &lt;dbl&gt; 153.0000, 0.9850, 28.5000, 1.1595, 0.4100, 14.0000, 2.…
+## $ SELLINGADMIN    &lt;dbl&gt; 3024.000, 33.645, 664.080, 20.778, 12.119, 370.000, 36…
+## $ MKTVALUE        &lt;dbl&gt; 2976.3858, 34.6617, 1389.3320, 23.5682, 9.9241, 1061.0…
+## $ COMMONEQUITY    &lt;dbl&gt; -2935.000, 44.513, 761.544, 22.888, 26.244, 661.900, 8…
+## $ TOTALLIABILITY  &lt;dbl&gt; 28110.000, 75.504, 471.726, 22.536, 4.378, 4173.700, 2…
+## $ GROSSPROFIT     &lt;dbl&gt; 3534.000, 45.016, 1282.871, 28.665, 9.454, 444.200, 46…
+## $ ROA             &lt;dbl&gt; -0.08226415, 0.04174409, 0.07312997, 0.09834008, -0.05…
+## $ ROE             &lt;dbl&gt; 0.70562181, 0.11255139, 0.11842914, 0.19516777, -0.061…
+## $ GPMARGIN        &lt;dbl&gt; 0.14869982, 0.20659966, 0.80551586, 0.41713354, 0.4930…
+## $ NPMARGIN        &lt;dbl&gt; -0.087141294, 0.022993253, 0.056629754, 0.065003856, -…</code></pre>
+<pre class="r"><code>df_2008data %&gt;% 
+  group_by(TICKER,ROA) %&gt;% 
+  summarize(ROA) %&gt;% 
+  arrange(desc(ROA))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;TICKER&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 691 × 2
+## # Groups:   TICKER [691]
+##    TICKER   ROA
+##    &lt;chr&gt;  &lt;dbl&gt;
+##  1 UWN    0.389
+##  2 VERU   0.359
+##  3 FKWL   0.348
+##  4 TPR    0.344
+##  5 BMRA   0.335
+##  6 RMCF   0.307
+##  7 CHH    0.305
+##  8 SOHU   0.304
+##  9 CALM   0.303
+## 10 CPSI   0.292
+## # … with 681 more rows</code></pre>
+<p>Out of the companies placed in this dataset, ‘NEVADA GOLD &amp; CASINOS INC’ (UWN) had the highest ROA in the year 2008 and during one of the years of the financial crisis. For every $1 of their assets, they earned nearly $0.39 of net income in 2008.</p>
+</div>
+<div id="question-7-10-points" class="section level1">
+<h1>Question # 7 (10 Points)</h1>
+<p>For the transportation industry (<code>SIC</code> code 4512), calculate the net profits for each company in the industry over the period 2008-2017. Identify three companies with the highest profit in the period.</p>
+<pre class="r"><code>sic4512_df &lt;- df %&gt;% 
+  filter(
+    SIC == 4512
+  )
+glimpse(sic4512_df)</code></pre>
+<pre><code>## Rows: 70
+## Columns: 19
+## $ COMPANYNAME     &lt;chr&gt; &quot;AMERICAN AIRLINES GROUP INC&quot;, &quot;AMERICAN AIRLINES GROU…
+## $ STATEINCORP     &lt;chr&gt; &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, &quot;DE&quot;, …
+## $ TICKER          &lt;chr&gt; &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;, &quot;AAL&quot;…
+## $ YEAR            &lt;dbl&gt; 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, …
+## $ SIC             &lt;chr&gt; &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;, &quot;4512&quot;…
+## $ TOTALASSETS     &lt;dbl&gt; 25175.0, 25438.0, 25088.0, 23848.0, 23510.0, 42278.0, …
+## $ COSTOFGOODSSOLD &lt;dbl&gt; 20232.0, 16935.0, 18138.0, 20420.0, 20529.0, 19084.0, …
+## $ NETINCOME       &lt;dbl&gt; -2071.0, -1468.0, -471.0, -1979.0, -1876.0, -1834.0, 2…
+## $ SALE            &lt;dbl&gt; 23766.0, 19917.0, 22170.0, 24022.0, 24855.0, 26712.0, …
+## $ ADVERTISING     &lt;dbl&gt; 153.0, 153.0, 165.0, 186.0, 153.0, 166.0, 100.0, 110.0…
+## $ SELLINGADMIN    &lt;dbl&gt; 3024.0, 2720.0, 2729.0, 2907.0, 2892.0, 4672.0, 6554.0…
+## $ MKTVALUE        &lt;dbl&gt; 2976.3858, 2571.1835, 2597.5755, 117.3438, 266.5571, 6…
+## $ COMMONEQUITY    &lt;dbl&gt; -2935.0, -3489.0, -3945.0, -7111.0, -7987.0, -2731.0, …
+## $ TOTALLIABILITY  &lt;dbl&gt; 28110.0, 28927.0, 29033.0, 30959.0, 31497.0, 45009.0, …
+## $ GROSSPROFIT     &lt;dbl&gt; 3534.0, 2982.0, 4032.0, 3602.0, 4326.0, 7628.0, 13139.…
+## $ ROA             &lt;dbl&gt; -0.08226415, -0.05770894, -0.01877392, -0.08298390, -0…
+## $ ROE             &lt;dbl&gt; 0.7056218, 0.4207509, 0.1193916, 0.2783012, 0.2348817,…
+## $ GPMARGIN        &lt;dbl&gt; 0.1486998, 0.1497213, 0.1818674, 0.1499459, 0.1740495,…
+## $ NPMARGIN        &lt;dbl&gt; -0.08714129, -0.07370588, -0.02124493, -0.08238282, -0…</code></pre>
+<pre class="r"><code>sic4512_df %&gt;% 
+  group_by(TICKER) %&gt;% 
+  summarize(PROFIT = sum(NETINCOME)) %&gt;% 
+  arrange(desc(PROFIT))</code></pre>
+<pre><code>## # A tibble: 7 × 2
+##   TICKER PROFIT
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 DAL    15972 
+## 2 LUV    11138 
+## 3 AAL     5388 
+## 4 ALK     4606.
+## 5 JBLU    3448 
+## 6 HA      1209.
+## 7 ALGT    1119.</code></pre>
+<p>During the period from 2008-2017, ‘DELTA AIR LINES INC’ (DAL) had the highest profit ($15,972.00). ‘SOUTHWEST AIRLINES’ had the second highest profit ($11,138.00), and ‘AMERICAN AIRLINES GROUP INC’ (AAL) had the third highest profit ($5,388.00).</p>
+</div>
+<div id="question-8-20-points" class="section level1">
+<h1>Question # 8 (20 Points)</h1>
+<p>Create a <code>boxplot</code> of the total assets (<code>TOTALASSETS</code>) and sales (<code>SALE</code>) of two companies, <code>PFIZER INC</code> and <code>JOHNSON &amp; JOHNSON,</code> and note down your observations.</p>
+<pre class="r"><code>df %&gt;% 
+  as_tibble() %&gt;% 
+  select(YEAR,TOTALASSETS,SALE,COMPANYNAME) %&gt;% 
+  filter(COMPANYNAME %in% c(&#39;PFIZER INC&#39;,&#39;JOHNSON &amp; JOHNSON&#39;)) %&gt;% 
+  pivot_longer(-c (&#39;COMPANYNAME&#39;,&#39;YEAR&#39;), names_to = &quot;variables&quot;, values_to = &quot;count&quot;) %&gt;% 
+  ggplot(aes(x=COMPANYNAME ,y=count))+
+  geom_boxplot(fill=&quot;green&quot;)+
+  facet_wrap(~variables)</code></pre>
+<p><img src="/posts/Data-Analysis_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+‘JOHNSON &amp; JOHNSON’ (JNJ), from 2008-2017, had relatively larger sales than ‘PFIZER INC’ (PFE). In fact, the sales boxplot shows that JNJ’s median sales amount was around PFE’s best sales year during the same 10-year stretch. However, PFE saw much better net income results than JNJ over the same time span. PFE had nine years where their net income total was better than JNJ’s best net income result from 2008-2017.</p>
+</div>
+<div id="question-9-10-points" class="section level1">
+<h1>Question # 9 (10 Points)</h1>
+<p>Please verify if there is any relationship between the advertising expenses (<code>ADVERTISING</code>) and sales (<code>SALE</code>). Plot the relationship between the advertising expenses and sales and elaborate your observations.</p>
+<pre class="r"><code>relationship_plot &lt;- ggplot(df,aes(ADVERTISING,SALE))+
+  geom_point(col=&quot;red&quot;,cex=3/2)+
+  theme_bw()
+relationship_plot</code></pre>
+<p><img src="/posts/Data-Analysis_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>After plotting these variables (and its respective stored data) onto a scatterplot, it is evident that there is a statistical relationship between the amount of money that companies spent on advertising to the amount of sales companies received over the span of one year. As advertising expenses increased, sales increased for many companies. With this being said, however, there are a few outliers to this plot, as some companies saw little sales coming from huge advertising expenses, and others saw huge sales coming from little advertising expenses. Furthermore, there were many companies that saw very little sales coming from very little advertisement spending. Ultimately, however, there is a small, positive relationship between the two variables in this dataset.</p>
+</div>
+<div id="question-10-20-points" class="section level1">
+<h1>Question # 10 (20 Points)</h1>
+<p>Please mention the state in which most of the US companies are incorporated.</p>
+<pre class="r"><code>df %&gt;% 
+  count(STATEINCORP,sort=TRUE)</code></pre>
+<pre><code>## # A tibble: 32 × 2
+##    STATEINCORP     n
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 DE           4360
+##  2 NV            340
+##  3 MN            200
+##  4 FL            170
+##  5 OH            160
+##  6 WA            140
+##  7 NY            130
+##  8 WI            120
+##  9 MD            110
+## 10 CA            100
+## # … with 22 more rows</code></pre>
+<p>Delaware is the state in which most of the US companies placed in this dataset are incorporated. Nearly two-thirds of the companies in this dataset are incorporated in Delaware.</p>
 </div>
