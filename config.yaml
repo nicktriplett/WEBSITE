@@ -98,3 +98,8 @@ languages:
       info: Full Stack DevOps e Mágico
       keywords: blog,desenvolvedor,pessoal
     title: João Ninguém
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
