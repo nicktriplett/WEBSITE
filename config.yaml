@@ -1,5 +1,5 @@
 baseURL: http://www.example.com
-title: johndoe
+title: Nicholas Triplett
 theme: hugo-coder
 languageCode: en
 defaultContentLanguage: en
@@ -9,8 +9,8 @@ pygmentsCodeFences: yes
 pygmentsCodeFencesGuessSyntax: yes
 enableEmoji: yes
 params:
-  author: John Doe
-  avatarURL: images/avatar.jpg
+  author: Nicholas Triplett
+  avatarURL: images/Test-Photo.jpg
   colorScheme: auto
   commit: https://github.com/luizdepra/hugo-coder/tree/
   customCSS: []
